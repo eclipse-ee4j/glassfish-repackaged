@@ -29,11 +29,11 @@
     <groupId>org.glassfish.external</groupId>
     <artifactId>derby</artifactId>
     <name>Apache Derby repackaged</name>
-    <version>10.13.1.2-SNAPSHOT</version>
+    <version>10.13.1.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <derby.version>10.13.1.1</derby.version>
+        <derby.version>10.14.2.0</derby.version>
         <derby.download.url>http://www-eu.apache.org/dist/db/derby/db-derby-${derby.version}/db-derby-${derby.version}-bin.zip</derby.download.url>
     </properties>
 
@@ -88,7 +88,11 @@
                         <configuration>
                             <target>
                                 <!-- download the zip -->
-                                <get src="${derby.download.url}" dest="target/derby-${project.version}.zip" verbose="false" usetimestamp="true" />
+                                <mkdir dir="target/tmp"/>
+                                <get src="${derby.download.url}" dest="target/tmp/" verbose="false" usetimestamp="true" />
+                                <unzip src="target/tmp/db-derby-${derby.version}-bin.zip" dest="target/tmp/"/>
+                                <zip destfile="target/derby-${project.version}.zip" basedir="target/tmp/db-derby-${derby.version}-bin" />
+                                <delete dir="target/tmp"/>
                             </target>
                          </configuration>
                       </execution>
@@ -117,20 +121,6 @@
                  </executions>
              </plugin>
              <plugin>
-                 <groupId>org.apache.maven.plugins</groupId>
-                 <artifactId>maven-gpg-plugin</artifactId>
-                 <version>1.6</version>
-                 <executions>
-                     <execution>
-                         <id>sign-artifacts</id>
-                         <phase>verify</phase>
-                         <goals>
-                             <goal>sign</goal>
-                         </goals>
-                     </execution>
-                 </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.2</version>
