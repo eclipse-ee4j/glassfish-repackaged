@@ -28,7 +28,7 @@
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>dbschema</artifactId>
-    <version>6.7</version>
+    <version>6.8-SNAPSHOT</version>
     <name>DBschema repackaged as an OSGI bundle</name>
 
     <properties>
