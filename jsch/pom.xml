@@ -29,7 +29,7 @@
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>jsch</artifactId>
-    <version>0.1.56</version>
+    <version>0.1.57-SNAPSHOT</version>
 
     <name>jsch repackaged as an OSGI bundle</name>
 
