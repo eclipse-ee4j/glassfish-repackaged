@@ -28,7 +28,7 @@
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>ant</artifactId>
-    <version>1.10.2</version>
+    <version>1.10.3-SNAPSHOT</version>
     <name>Ant repackaged as an OSGI bundle</name>
 
     <properties>
