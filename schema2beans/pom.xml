@@ -28,7 +28,7 @@
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>schema2beans</artifactId>
-    <version>6.7-SNAPSHOT</version>
+    <version>6.8-SNAPSHOT</version>
 
     <name>Schema2beans repackaged as an OSGI bundle</name>
 
