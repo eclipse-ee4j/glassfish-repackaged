@@ -32,7 +32,7 @@
     <name>Ant repackaged as an OSGI bundle</name>
 
     <properties>
-        <ant.version>1.10.1</ant.version>
+        <ant.version>1.10.9</ant.version>
         <release.arguments />
     </properties>
 
