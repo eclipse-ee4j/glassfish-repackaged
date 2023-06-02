@@ -29,12 +29,12 @@
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>jsch</artifactId>
-    <version>0.1.65-SNAPSHOT</version>
+    <version>0.2.9-SNAPSHOT</version>
 
     <name>jsch repackaged as an OSGI bundle</name>
 
     <properties>
-        <jsch.version>0.1.65</jsch.version>
+        <jsch.version>0.2.9</jsch.version>
         <release.arguments />
     </properties>
 
@@ -139,8 +139,8 @@
                              in the final bundle
                         -->
                         <!-- Exclude unnecessary imports -->
-                        <Export-Package>*;version=${jsch.version}</Export-Package>
-                        <Import-Package>!com.jcraft.jzlib,*</Import-Package>
+                        <Export-Package>com.jcraft.jsch;-noimport:=true</Export-Package>
+                        <Import-Package>!com.jcraft.jzlib,*;resolution:=optional</Import-Package>
                         <Private-Package>!*</Private-Package>
                     </instructions>
                     <!-- Maven uses the output directory (target/classes)
