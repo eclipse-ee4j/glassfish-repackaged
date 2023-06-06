@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.8</version>
         <relativePath />
     </parent>
 
@@ -32,23 +32,10 @@
     <name>DBschema repackaged as an OSGI bundle</name>
 
     <properties>
-        <dbschema.version>RELEASE712</dbschema.version>
-        <dbschema.osgi.version>6.5</dbschema.osgi.version>
+        <dbschema.version>RELEASE180</dbschema.version>
+        <dbschema.osgi.version>18</dbschema.osgi.version>
         <release.arguments />
     </properties>
-
-    <repositories>
-        <repository>
-            <id>netbeans</id>
-            <url>http://bits.netbeans.org/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <licenses>
         <license>
@@ -145,7 +132,7 @@
                 <configuration>
                     <instructions>
                         <Embed-Dependency>org-netbeans-modules-dbschema.*;inline=true</Embed-Dependency>
-                        <Export-Package> org.netbeans.modules.dbschema.*;version=${dbschema.osgi.version}; password="GlassFish"; mandatory:=password</Export-Package>
+                        <Export-Package>org.netbeans.modules.dbschema.*;version=${dbschema.osgi.version}; password="GlassFish"; mandatory:=password</Export-Package>
                         <Import-Package>
                               org.openide.*;resolution:=optional,
                               org.netbeans.*;resolution:=optional,

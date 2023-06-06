@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.8</version>
         <relativePath />
     </parent>
 
@@ -33,23 +33,10 @@
     <name>Schema2beans repackaged as an OSGI bundle</name>
 
     <properties>
-        <schema2beans.version>RELEASE82</schema2beans.version>
-        <schema2beans.osgi.version>6.5</schema2beans.osgi.version>
+        <schema2beans.version>RELEASE180</schema2beans.version>
+        <schema2beans.osgi.version>18</schema2beans.osgi.version>
         <release.arguments />
     </properties>
-
-    <repositories>
-        <repository>
-            <id>netbeans</id>
-            <url>http://bits.netbeans.org/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <licenses>
         <license>
