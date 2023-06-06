@@ -73,11 +73,7 @@ spec:
         container('maven') {
           timeout(time: 10, unit: 'MINUTES') {
             sh '''
-              for pom in `find . -name pom.xml -maxdepth 2` ; do
-                cd `dirname ${pom}`
-                mvn clean install -Pstaging
-                cd -
-              done
+              find . -maxdepth 2 -name pom.xml -exec bash -c 'mvn clean install -Pstaging -f "$1"' - {} \\;
             '''
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
           }
