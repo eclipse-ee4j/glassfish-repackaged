@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  * Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -14,7 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-env.label = "ci-pod-${UUID.randomUUID().toString()}"
 pipeline {
   options {
     // keep at most 50 builds
@@ -28,62 +28,52 @@ pipeline {
   }
   agent {
     kubernetes {
-      label "${env.label}"
-      defaultContainer 'jnlp'
+      inheritFrom "basic"
       yaml """
 apiVersion: v1
 kind: Pod
 metadata:
 spec:
-  securityContext:
-    runAsUser: 1000100000
+  containers:
+  - name: maven
+    image: maven:3.9.0-eclipse-temurin-17
+    command:
+    - cat
+    tty: true
+    env:
+    - name: "HOME"
+      value: "/home/jenkins"
+    - name: "MAVEN_OPTS"
+      value: "-Duser.home=/home/jenkins -Xmx2500m -Xss768k -XX:+UseG1GC -XX:+UseStringDeduplication"
+    volumeMounts:
+    - name: maven-repo-shared-storage
+      mountPath: "/home/jenkins/.m2/repository"
+    - name: maven-repo-local-storage
+      mountPath: "/home/jenkins/.m2/repository/org/glassfish/external"
+    resources:
+      limits:
+        memory: "8Gi"
+        cpu: "4000m"
+      requests:
+        memory: "8Gi"
+        cpu: "4000m"
   volumes:
     - name: maven-repo-shared-storage
       persistentVolumeClaim:
-       claimName: glassfish-maven-repo-storage
+        claimName: glassfish-maven-repo-storage
     - name: maven-repo-local-storage
       emptyDir: {}
-  containers:
-  - name: jnlp
-    image: jenkins/jnlp-slave:alpine
-    imagePullPolicy: IfNotPresent
-    volumeMounts:
-    env:
-      - name: JAVA_TOOL_OPTIONS
-        value: -Xmx1G
-    resources:
-      limits:
-        memory: "1Gi"
-        cpu: "1"
-  - name: build-container
-    image: ee4jglassfish/ci:jdk-8.181
-    args:
-    - cat
-    tty: true
-    imagePullPolicy: Always
-    volumeMounts:
-      - mountPath: "/home/jenkins/.m2/repository"
-        name: maven-repo-shared-storage
-      - mountPath: "/home/jenkins/.m2/repository/org/glassfish/external"
-        name: maven-repo-local-storage
-    resources:
-      limits:
-        memory: "7Gi"
-        cpu: "3"
 """
     }
   }
+
   stages {
     stage('build') {
       steps {
-        container('build-container') {
+        container('maven') {
           timeout(time: 10, unit: 'MINUTES') {
             sh '''
-              for pom in `find . -name pom.xml -maxdepth 2` ; do
-                cd `dirname ${pom}`
-                mvn clean install -Pstaging
-                cd -
-              done
+              find . -maxdepth 2 -name pom.xml -exec bash -c 'mvn clean install -Pstaging -f "$1"' - {} \\;
             '''
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
           }
