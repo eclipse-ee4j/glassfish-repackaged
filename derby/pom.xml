@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
+    Copyright (c) 2024, 2025 Contributors to the Eclipse Foundation.
     Copyright (c) 2018, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -17,26 +18,22 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.8</version>
+        <version>1.0.9</version>
         <relativePath />
     </parent>
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>derby</artifactId>
-    <name>Apache Derby repackaged</name>
-    <version>10.15.2.0-SNAPSHOT</version>
+    <version>10.17.1.0</version>
     <packaging>pom</packaging>
 
-    <properties>
-        <derby.version>10.15.2.0</derby.version>
-        <derby.download.url>http://www-eu.apache.org/dist/db/derby/db-derby-${derby.version}/db-derby-${derby.version}-bin.zip</derby.download.url>
-    </properties>
-
+    <name>Apache Derby repackaged</name>
     <licenses>
         <license>
             <name>EPL 2.0</name>
@@ -49,11 +46,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/eclipse-ee4j/glassfish-repackaged/issues</url>
-    </issueManagement>
 
     <mailingLists>
       <mailingList>
@@ -71,13 +63,22 @@
         <url>https://github.com/eclipse-ee4j/glassfish-repackaged.git</url>
         <tag>HEAD</tag>
     </scm>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/eclipse-ee4j/glassfish-repackaged/issues</url>
+    </issueManagement>
+
+    <properties>
+        <derby.version>10.17.1.0</derby.version>
+        <derby.download.url>https://www-eu.apache.org/dist/db/derby/db-derby-${derby.version}/db-derby-${derby.version}-bin.zip</derby.download.url>
+    </properties>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>download-files</id>
@@ -101,7 +102,7 @@
              <plugin>
                  <groupId>org.codehaus.mojo</groupId>
                  <artifactId>build-helper-maven-plugin</artifactId>
-                 <version>3.2.0</version>
+                 <version>3.6.0</version>
                  <executions>
                      <execution>
                          <id>attach-artifacts</id>
