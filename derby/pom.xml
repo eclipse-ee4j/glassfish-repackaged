@@ -196,34 +196,46 @@
                         </goals>
                         <configuration>
                             <url>${derby.download.url}</url>
-                            <unpack>false</unpack>
-                            <outputFileName>derby.zip</outputFileName>
+                            <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-             <plugin>
-                 <groupId>org.codehaus.mojo</groupId>
-                 <artifactId>build-helper-maven-plugin</artifactId>
-                 <executions>
-                     <execution>
-                         <id>attach-artifacts</id>
-                         <phase>prepare-package</phase>
-                         <goals>
-                             <goal>attach-artifact</goal>
-                         </goals>
-                         <configuration>
-                             <artifacts>
-                                 <artifact>
-                                     <file>${project.build.directory}/derby.zip</file>
-                                     <type>zip</type>
-                                 </artifact>
-                             </artifacts>
-                         </configuration>
-                     </execution>
-                 </executions>
-             </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.7.1</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <inlineDescriptors>
+                        <inlineDescriptor>
+                            <id>derby</id>
+                            <includeBaseDirectory>false</includeBaseDirectory>
+                            <formats>
+                                <format>zip</format>
+                            </formats>
+                            <fileSets>
+                                <fileSet>
+                                    <directory>${project.build.directory}/db-derby-${derby.version}-bin</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                    <outputDirectory>/</outputDirectory>
+                                </fileSet>
+                            </fileSets>
+                        </inlineDescriptor>
+                    </inlineDescriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>package</id>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <executions>
