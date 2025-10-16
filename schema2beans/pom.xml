@@ -30,7 +30,7 @@
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>schema2beans</artifactId>
-    <version>27.0.0-SNAPSHOT</version>
+    <version>2.7.0-SNAPSHOT</version>
 
     <name>Schema2beans OSGi</name>
     <description>
@@ -100,7 +100,7 @@
 
     <properties>
         <schema2beans.version>RELEASE270</schema2beans.version>
-        <schema2beans.osgi.version>27</schema2beans.osgi.version>
+        <schema2beans.osgi.version>2.7.0</schema2beans.osgi.version>
 
         <!-- Do not autopublish by default -->
         <release.autopublish>false</release.autopublish>
@@ -165,7 +165,6 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
                     <version>3.1.1</version>
                     <configuration>
@@ -198,7 +197,7 @@
                     <configuration>
                         <autoPublish>${release.autopublish}</autoPublish>
                         <centralSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots</centralSnapshotsUrl>
-                        <deploymentName>Eclipse Concurro ${project.version}</deploymentName>
+                        <deploymentName>Eclipse GlassFish Schema2Beans ${project.version}</deploymentName>
                         <publishingServerId>central</publishingServerId>
                         <waitUntil>${release.waitUntil}</waitUntil>
                     </configuration>
@@ -236,21 +235,6 @@
                         <Embed-Dependency>
                             org-netbeans-modules-schema2beans;inline=true
                         </Embed-Dependency>
-                        <!-- we are not using _exportcontents, because that
-                             does not generate version in Export-Package.
-                             Sahoo to investigate further.
-                        -->
-                        <!-- We set a mandatory attribute for these packages, because we don't
-                             want them to be visible to just anyone. An importer must specify
-                             the mandatory attribute for it to be able to import. See
-                             section #3.6.5 of OSGi R4 spec.
-                             Why is this required?
-                             See https://glassfish.dev.java.net/issues/show_bug.cgi?id=5385
-                             By doing this, we allow user have any version of apache-commons lib
-                             in their application class loader hierarchy. They don't even have to
-                             set delegation=false in sun-web.xml! This is the true advantage of
-                             using OSGi. Sahoo.
-                        -->
                         <Export-Package>org.netbeans.modules.schema2beans.*;version=${schema2beans.osgi.version}; password="GlassFish"; mandatory:=password</Export-Package>
                         <Private-Package>!*</Private-Package>
                     </instructions>
