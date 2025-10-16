@@ -121,6 +121,12 @@
             <version>${dbschema.version}</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-filesystems</artifactId>
+            <version>${dbschema.version}</version>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <build>
@@ -238,7 +244,11 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
-                        <Embed-Dependency>org-netbeans-modules-dbschema.*;inline=true,org-openide-nodes.*;inline=true</Embed-Dependency>
+                        <Embed-Dependency>
+                            org-netbeans-modules-dbschema.*;inline=true,
+                            org-openide-nodes.*;inline=true,
+                            org-openide-filesystems.*;inline=true
+                        </Embed-Dependency>
                         <Export-Package>org.netbeans.modules.dbschema.*;version=${dbschema.osgi.version}; password="GlassFish"; mandatory:=password</Export-Package>
                         <Import-Package>
                               org.openide.*;resolution:=optional,
@@ -277,6 +287,20 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
+                                    <groupId>org.netbeans.api</groupId>
+                                    <artifactId>org-openide-nodes</artifactId>
+                                    <version>${dbschema.version}</version>
+                                    <classifier>sources</classifier>
+                                    <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.netbeans.api</groupId>
+                                    <artifactId>org-openide-filesystems</artifactId>
+                                    <version>${dbschema.version}</version>
+                                    <classifier>sources</classifier>
+                                    <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.netbeans.modules</groupId>
                                     <artifactId>org-netbeans-modules-dbschema</artifactId>
                                     <version>${dbschema.version}</version>
@@ -295,7 +319,12 @@
                         <configuration>
                             <excludeTransitive>true</excludeTransitive>
                             <includeTypes>jar</includeTypes>
-                            <includes>org/openide/nodes/*,org/netbeans/modules/dbschema/**</includes>
+                            <includes>
+                                org/openide/nodes/**,
+                                org/openide/filesystems/**,
+                                org/netbeans/modules/openide/**,
+                                org/netbeans/modules/dbschema/**
+                            </includes>
                             <outputDirectory>${project.build.outputDirectory}</outputDirectory>
                         </configuration>
                     </execution>
