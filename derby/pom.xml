@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-
-    Copyright (c) 2024, 2025 Contributors to the Eclipse Foundation.
+    Copyright (c) 2019, 2025 Contributors to the Eclipse Foundation.
     Copyright (c) 2018, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -18,9 +17,10 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
@@ -33,7 +33,9 @@
     <version>10.17.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Apache Derby repackaged</name>
+    <name>Apache Derby for Eclipse GlassFish</name>
+    <description>Apache Derby redeployed for Eclipse GlassFish</description>
+
     <licenses>
         <license>
             <name>EPL 2.0</name>
@@ -63,46 +65,147 @@
         <url>https://github.com/eclipse-ee4j/glassfish-repackaged.git</url>
         <tag>HEAD</tag>
     </scm>
+
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/eclipse-ee4j/glassfish-repackaged/issues</url>
     </issueManagement>
 
+    <!-- TODO: Can be removed after it would be removed from parent too -->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <name>Disabled Sonatype Nexus</name>
+            <url>http://localhost</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <name>Disabled Sonatype Nexus</name>
+            <url>http://localhost</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </distributionManagement>
+
     <properties>
+<!--        <derby.version>10.16.1.1</derby.version>-->
         <derby.version>10.17.1.0</derby.version>
-        <derby.download.url>https://www-eu.apache.org/dist/db/derby/db-derby-${derby.version}/db-derby-${derby.version}-bin.zip</derby.download.url>
+        <derby.download.url>https://dlcdn.apache.org//db/derby/db-derby-${derby.version}/db-derby-${derby.version}-bin.zip</derby.download.url>
     </properties>
 
     <build>
+        <pluginManagement>
+          <plugins>
+                <plugin>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>3.6.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>io.github.download-maven-plugin</groupId>
+                    <artifactId>download-maven-plugin</artifactId>
+                    <version>2.0.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.6.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <configuration>
+                        <lineSeparator>lf</lineSeparator>
+                        <autoResolveSnapshots>true</autoResolveSnapshots>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <pushChanges>false</pushChanges>
+                        <tagNameFormat>Schema2Beans-@{project.version}</tagNameFormat>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.7.0</version>
+                    <configuration>
+                        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>injected-nexus-deploy</id>
+                            <phase>none</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>0.9.0</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <autoPublish>${release.autopublish}</autoPublish>
+                        <centralSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots</centralSnapshotsUrl>
+                        <deploymentName>Eclipse Concurro ${project.version}</deploymentName>
+                        <publishingServerId>central</publishingServerId>
+                        <waitUntil>${release.waitUntil}</waitUntil>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
+                <artifactId>maven-enforcer-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>download-files</id>
-                        <phase>prepare-package</phase>
+                        <id>enforce-maven</id>
                         <goals>
-                            <goal>run</goal>
+                            <goal>enforce</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.9.0</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>17</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.github.download-maven-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>download</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <target>
-                                <!-- download the zip -->
-                                <mkdir dir="target/tmp"/>
-                                <get src="${derby.download.url}" dest="target/tmp/" verbose="false" usetimestamp="true" />
-                                <unzip src="target/tmp/db-derby-${derby.version}-bin.zip" dest="target/tmp/"/>
-                                <zip destfile="target/derby-${project.version}.zip" basedir="target/tmp/db-derby-${derby.version}-bin" />
-                                <delete dir="target/tmp"/>
-                            </target>
-                         </configuration>
-                      </execution>
-                 </executions>
-             </plugin>
+                            <url>${derby.download.url}</url>
+                            <unpack>false</unpack>
+                            <outputFileName>derby.zip</outputFileName>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
              <plugin>
                  <groupId>org.codehaus.mojo</groupId>
                  <artifactId>build-helper-maven-plugin</artifactId>
-                 <version>3.6.0</version>
                  <executions>
                      <execution>
                          <id>attach-artifacts</id>
@@ -113,7 +216,7 @@
                          <configuration>
                              <artifacts>
                                  <artifact>
-                                     <file>${project.build.directory}/${project.build.finalName}.zip</file>
+                                     <file>${project.build.directory}/derby.zip</file>
                                      <type>zip</type>
                                  </artifact>
                              </artifacts>
@@ -121,22 +224,21 @@
                      </execution>
                  </executions>
              </plugin>
-             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <mavenExecutorId>forked-path</mavenExecutorId>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <tagNameFormat>@{project.version}</tagNameFormat>
-                    <arguments>${release.arguments}</arguments>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.scm</groupId>
-                        <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>1.11.2</version>
-                    </dependency>
-                </dependencies>
+            <plugin>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
