@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -36,7 +36,7 @@ metadata:
 spec:
   containers:
   - name: maven
-    image: maven:3.9.0-eclipse-temurin-17
+    image: maven:3.9.11-eclipse-temurin-25
     command:
     - cat
     tty: true
