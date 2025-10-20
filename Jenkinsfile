@@ -18,7 +18,7 @@
 pipeline {
   options {
     // keep at most 50 builds
-    buildDiscarder(logRotator(numToKeepStr: '50'))
+    buildDiscarder(logRotator(numToKeepStr: '20'))
     // abort pipeline if previous stage is unstable
     skipStagesAfterUnstable()
     // show timestamps in logs
@@ -73,7 +73,7 @@ spec:
         container('maven') {
           timeout(time: 10, unit: 'MINUTES') {
             sh '''
-              find . -maxdepth 2 -name pom.xml -exec bash -c 'mvn clean install -Pstaging -f "$1"' - {} \\;
+              find . -maxdepth 2 -name pom.xml -exec bash -c 'mvn clean install -f "$1"' - {} \\;
             '''
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
           }
