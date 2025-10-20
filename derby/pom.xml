@@ -28,7 +28,7 @@
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>derby</artifactId>
-    <version>10.16.1.1</version>
+    <version>10.17.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Apache Derby for Eclipse GlassFish</name>
@@ -56,7 +56,7 @@
         <connection>scm:git:git@github.com:eclipse-ee4j/glassfish-repackaged.git</connection>
         <developerConnection>scm:git:git@github.com:eclipse-ee4j/glassfish-repackaged.git</developerConnection>
         <url>https://github.com/eclipse-ee4j/glassfish-repackaged.git</url>
-        <tag>Derby-10.16.1.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
