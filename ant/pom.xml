@@ -17,9 +17,7 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
@@ -30,7 +28,7 @@
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>ant</artifactId>
-    <version>1.10.15-SNAPSHOT</version>
+    <version>1.10.15</version>
 
     <name>Ant OSGi</name>
     <description>Apache Ant repackaged for Eclipse GlassFish to support OSGi</description>
@@ -57,7 +55,7 @@
         <connection>scm:git:git@github.com:eclipse-ee4j/glassfish-repackaged.git</connection>
         <developerConnection>scm:git:git@github.com:eclipse-ee4j/glassfish-repackaged.git</developerConnection>
         <url>https://github.com/eclipse-ee4j/glassfish-repackaged.git</url>
-        <tag>HEAD</tag>
+        <tag>Ant-1.10.15</tag>
     </scm>
 
     <issueManagement>
