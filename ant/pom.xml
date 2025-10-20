@@ -28,7 +28,7 @@
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>ant</artifactId>
-    <version>1.10.15</version>
+    <version>1.10.16-SNAPSHOT</version>
 
     <name>Ant OSGi</name>
     <description>Apache Ant repackaged for Eclipse GlassFish to support OSGi</description>
@@ -55,7 +55,7 @@
         <connection>scm:git:git@github.com:eclipse-ee4j/glassfish-repackaged.git</connection>
         <developerConnection>scm:git:git@github.com:eclipse-ee4j/glassfish-repackaged.git</developerConnection>
         <url>https://github.com/eclipse-ee4j/glassfish-repackaged.git</url>
-        <tag>Ant-1.10.15</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
