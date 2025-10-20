@@ -98,8 +98,7 @@
     </distributionManagement>
 
     <properties>
-<!--        <derby.version>10.16.1.1</derby.version>-->
-        <derby.version>10.17.1.0</derby.version>
+        <derby.version>10.16.1.1</derby.version>
         <derby.download.url>https://dlcdn.apache.org//db/derby/db-derby-${derby.version}/db-derby-${derby.version}-bin.zip</derby.download.url>
     </properties>
 
