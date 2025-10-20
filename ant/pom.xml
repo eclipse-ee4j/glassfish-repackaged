@@ -33,19 +33,12 @@
     <version>1.10.15-SNAPSHOT</version>
 
     <name>Ant OSGi</name>
-    <description>
-        Apache Ant repackaged for Eclipse GlassFish to support OSGi
-    </description>
+    <description>Apache Ant repackaged for Eclipse GlassFish to support OSGi</description>
 
     <licenses>
         <license>
-            <name>EPL 2.0</name>
-            <url>http://www.eclipse.org/legal/epl-2.0</url>
-            <distribution>repo</distribution>
-        </license>
-        <license>
-            <name>GPL2 w/ CPE</name>
-            <url>https://www.gnu.org/software/classpath/license.html</url>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
