@@ -139,6 +139,11 @@
                 <plugin>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.12.0</version>
+                    <configuration>
+                        <notimestamp>true</notimestamp>
+                        <splitindex>true</splitindex>
+                        <doclint>none</doclint>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -296,10 +301,10 @@
                 <executions>
                     <execution>
                         <id>add-sources</id>
-                        <phase>process-sources</phase>
                         <goals>
                             <goal>add-source</goal>
                         </goals>
+                        <phase>process-sources</phase>
                         <configuration>
                             <sources>
                                 <source>${project.build.directory}/sources</source>
@@ -309,14 +314,37 @@
                 </executions>
             </plugin>
             <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
-                        <phase>deploy</phase>
                         <goals>
                             <goal>sign</goal>
                         </goals>
+                        <phase>deploy</phase>
                     </execution>
                 </executions>
             </plugin>
