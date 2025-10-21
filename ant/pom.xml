@@ -17,9 +17,7 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
@@ -30,7 +28,7 @@
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>ant</artifactId>
-    <version>1.10.15-SNAPSHOT</version>
+    <version>1.10.16-SNAPSHOT</version>
 
     <name>Ant OSGi</name>
     <description>Apache Ant repackaged for Eclipse GlassFish to support OSGi</description>
@@ -139,6 +137,11 @@
                 <plugin>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.12.0</version>
+                    <configuration>
+                        <notimestamp>true</notimestamp>
+                        <splitindex>true</splitindex>
+                        <doclint>none</doclint>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -296,10 +299,10 @@
                 <executions>
                     <execution>
                         <id>add-sources</id>
-                        <phase>process-sources</phase>
                         <goals>
                             <goal>add-source</goal>
                         </goals>
+                        <phase>process-sources</phase>
                         <configuration>
                             <sources>
                                 <source>${project.build.directory}/sources</source>
@@ -309,14 +312,37 @@
                 </executions>
             </plugin>
             <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
-                        <phase>deploy</phase>
                         <goals>
                             <goal>sign</goal>
                         </goals>
+                        <phase>deploy</phase>
                     </execution>
                 </executions>
             </plugin>
