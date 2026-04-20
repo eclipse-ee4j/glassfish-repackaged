@@ -22,13 +22,13 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.9</version>
+        <version>2.0.2</version>
         <relativePath />
     </parent>
 
     <groupId>org.glassfish.external</groupId>
-    <artifactId>ant</artifactId>
-    <version>1.10.16-SNAPSHOT</version>
+    <artifactId>ant-osgi</artifactId>
+    <version>1.10.17-SNAPSHOT</version>
 
     <name>Ant OSGi</name>
     <description>Apache Ant repackaged for Eclipse GlassFish to support OSGi</description>
@@ -63,39 +63,9 @@
         <url>https://github.com/eclipse-ee4j/glassfish-repackaged/issues</url>
     </issueManagement>
 
-    <!-- TODO: Can be removed after it would be removed from parent too -->
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <name>Disabled Sonatype Nexus</name>
-            <url>http://localhost</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <name>Disabled Sonatype Nexus</name>
-            <url>http://localhost</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </distributionManagement>
-
     <properties>
-        <ant.version>1.10.15</ant.version>
-
-        <!-- Do not autopublish by default -->
-        <release.autopublish>false</release.autopublish>
-        <!-- By default block until everything is really published -->
-        <release.waitUntil>published</release.waitUntil>
+        <ant.version>1.10.17</ant.version>
+        <ant-contrib.version>1.0b3</ant-contrib.version>
     </properties>
 
     <dependencies>
@@ -111,8 +81,22 @@
             <version>${ant.version}</version>
             <optional>true</optional>
         </dependency>
+        <!--
+            ant-contrib cannot be included as it uses incompatible license (ASL 1.1),
+            but we can still bring it in as a dependency.
+        -->
+        <dependency>
+            <groupId>ant-contrib</groupId>
+            <artifactId>ant-contrib</artifactId>
+            <version>${ant-contrib.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ant</groupId>
+                    <artifactId>ant</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
-
 
     <build>
         <pluginManagement>
@@ -124,15 +108,15 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>6.0.0</version>
+                    <version>6.0.2</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.9.0</version>
+                    <version>3.10.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.3.1</version>
+                    <version>3.4.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-javadoc-plugin</artifactId>
@@ -154,54 +138,27 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.14.1</version>
+                    <version>3.15.0</version>
                     <configuration>
                         <skipMain>true</skipMain>
                     </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.4.2</version>
+                    <version>3.5.0</version>
                     <configuration>
                         <skipIfEmpty>true</skipIfEmpty>
                     </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.3.1</version>
                     <configuration>
                         <lineSeparator>lf</lineSeparator>
                         <autoResolveSnapshots>true</autoResolveSnapshots>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <pushChanges>false</pushChanges>
-                        <tagNameFormat>Schema2Beans-@{project.version}</tagNameFormat>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>1.7.0</version>
-                    <configuration>
-                        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>injected-nexus-deploy</id>
-                            <phase>none</phase>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.sonatype.central</groupId>
-                    <artifactId>central-publishing-maven-plugin</artifactId>
-                    <version>0.9.0</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <autoPublish>${release.autopublish}</autoPublish>
-                        <centralSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots</centralSnapshotsUrl>
-                        <deploymentName>Eclipse GlassFish Ant ${project.version}</deploymentName>
-                        <publishingServerId>central</publishingServerId>
-                        <waitUntil>${release.waitUntil}</waitUntil>
+                        <tagNameFormat>Ant-@{project.version}</tagNameFormat>
                     </configuration>
                 </plugin>
             </plugins>
@@ -233,18 +190,18 @@
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
+                    <!-- See https://bnd.bndtools.org/tools/felix-maven.html -->
                     <instructions>
                         <Embed-Dependency>
-                            *;artifactId=ant|ant-launcher;inline=true
+                            ant.*;inline=true|!META-INF/**|META-INF/LICENSE.txt|META-INF/NOTICE.txt,
+                            ant-launcher.*;inline=true|!META-INF/**
                         </Embed-Dependency>
-                        <_exportcontents>*</_exportcontents>
-                        <Import-Package>
+                        <Export-Package>
                             !images,
                             !org.apache.tools.ant.util.java15,
-                            !org.apache.tools.ant.taskdefs.optional,
-                            !org.apache.env,
-                            *
-                        </Import-Package>
+                            org.apache.tools.*
+                        </Export-Package>
+                        <Import-Package>!*</Import-Package>
                         <Private-Package>!*</Private-Package>
                     </instructions>
                     <unpackBundle>true</unpackBundle>
@@ -273,6 +230,13 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
+                            <includes>
+                                META-INF/LICENSE.txt,
+                                META-INF/NOTICE.txt
+                            </includes>
+                            <excludes>
+                                META-INF/**
+                            </excludes>
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>org.apache.ant</groupId>
@@ -334,22 +298,17 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.central</groupId>
-                <artifactId>central-publishing-maven-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>oss-release</id>
+            <properties>
+                <release.projectName>Ant OSGi</release.projectName>
+                <release.autoPublish>false</release.autoPublish>
+                <release.waitUntil>published</release.waitUntil>
+            </properties>
+        </profile>
+    </profiles>
 </project>

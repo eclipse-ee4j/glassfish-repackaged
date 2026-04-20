@@ -24,18 +24,16 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.9</version>
+        <version>2.0.2</version>
         <relativePath />
     </parent>
 
     <groupId>org.glassfish.external</groupId>
-    <artifactId>dbschema</artifactId>
-    <version>2.7.0-SNAPSHOT</version>
+    <artifactId>dbschema-osgi</artifactId>
+    <version>2.9.0-SNAPSHOT</version>
 
     <name>Schema2beans OSGi</name>
-    <description>
-        NetBeans Schema2Beans library repackaged for Eclipse GlassFish to support OSGi
-    </description>
+    <description>NetBeans DBSchema library repackaged for Eclipse GlassFish to support OSGi</description>
 
     <licenses>
         <license>
@@ -67,40 +65,8 @@
         <url>https://github.com/eclipse-ee4j/glassfish-repackaged/issues</url>
     </issueManagement>
 
-    <!-- TODO: Can be removed after it would be removed from parent too -->
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <name>Disabled Sonatype Nexus</name>
-            <url>http://localhost</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <name>Disabled Sonatype Nexus</name>
-            <url>http://localhost</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </distributionManagement>
-
     <properties>
-        <dbschema.version>RELEASE270</dbschema.version>
-        <dbschema.osgi.version>2.7.0</dbschema.osgi.version>
-
-        <!-- Do not autopublish by default -->
-        <release.autopublish>false</release.autopublish>
-        <!-- By default block until everything is really published -->
-        <release.waitUntil>published</release.waitUntil>
+        <dbschema.version>RELEASE290</dbschema.version>
     </properties>
 
     <dependencies>
@@ -122,6 +88,12 @@
             <version>${dbschema.version}</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util-lookup</artifactId>
+            <version>${dbschema.version}</version>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <build>
@@ -134,15 +106,15 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>6.0.0</version>
+                    <version>6.0.2</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.9.0</version>
+                    <version>3.10.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.3.1</version>
+                    <version>3.4.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-javadoc-plugin</artifactId>
@@ -159,54 +131,27 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.14.1</version>
+                    <version>3.15.0</version>
                     <configuration>
                         <skipMain>true</skipMain>
                     </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.4.2</version>
+                    <version>3.5.0</version>
                     <configuration>
                         <skipIfEmpty>true</skipIfEmpty>
                     </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.3.1</version>
                     <configuration>
                         <lineSeparator>lf</lineSeparator>
                         <autoResolveSnapshots>true</autoResolveSnapshots>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <pushChanges>false</pushChanges>
-                        <tagNameFormat>Schema2Beans-@{project.version}</tagNameFormat>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>1.7.0</version>
-                    <configuration>
-                        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>injected-nexus-deploy</id>
-                            <phase>none</phase>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.sonatype.central</groupId>
-                    <artifactId>central-publishing-maven-plugin</artifactId>
-                    <version>0.9.0</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <autoPublish>${release.autopublish}</autoPublish>
-                        <centralSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots</centralSnapshotsUrl>
-                        <deploymentName>Eclipse GlassFish DbSchema ${project.version}</deploymentName>
-                        <publishingServerId>central</publishingServerId>
-                        <waitUntil>${release.waitUntil}</waitUntil>
+                        <tagNameFormat>DBSchema-@{project.version}</tagNameFormat>
                     </configuration>
                 </plugin>
             </plugins>
@@ -240,21 +185,26 @@
                 <configuration>
                     <instructions>
                         <Embed-Dependency>
-                            org-netbeans-modules-dbschema.*;inline=true,
-                            org-openide-nodes.*;inline=true,
-                            org-openide-filesystems.*;inline=true
+                            org-netbeans-modules-dbschema.*;inline=true|META-INF/LICENSE|META-INF/NOTICE|!META-INF/**,
+                            org-openide-nodes.*;inline=true|!META-INF/**,
+                            org-openide-filesystems.*;inline=true|!META-INF/**,
+                            org-openide-util-lookup.*;inline=true|!META-INF/**
                         </Embed-Dependency>
-                        <Export-Package>org.netbeans.modules.dbschema.*;version=${dbschema.osgi.version}; password="GlassFish"; mandatory:=password</Export-Package>
+                        <Export-Package>*;password="GlassFish"; mandatory:=password</Export-Package>
                         <Import-Package>
-                              org.openide.*;resolution:=optional,
-                              org.netbeans.*;resolution:=optional,
-                              !org.jdesktop.layout,
-                              !javax.swing.*,
-                              !javax.accessibility,
-                              !java.awt.*,*
+                            !org.openide.*,
+                            !org.netbeans.*,
+                            !org.jdesktop.layout,
+                            !javax.swing.*,
+                            !javax.accessibility,
+                            !java.awt.*,*
                         </Import-Package>
+                        <Include-Resource>
+
+                        </Include-Resource>
                         <Private-Package>!*</Private-Package>
                     </instructions>
+
                 </configuration>
                 <executions>
                     <execution>
@@ -280,6 +230,13 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
+                            <includes>
+                                META-INF/LICENSE,
+                                META-INF/NOTICE
+                            </includes>
+                            <excludes>
+                                META-INF/**
+                            </excludes>
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>org.netbeans.api</groupId>
@@ -291,6 +248,13 @@
                                 <artifactItem>
                                     <groupId>org.netbeans.api</groupId>
                                     <artifactId>org-openide-filesystems</artifactId>
+                                    <version>${dbschema.version}</version>
+                                    <classifier>sources</classifier>
+                                    <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.netbeans.api</groupId>
+                                    <artifactId>org-openide-util-lookup</artifactId>
                                     <version>${dbschema.version}</version>
                                     <classifier>sources</classifier>
                                     <outputDirectory>${project.build.directory}/sources</outputDirectory>
@@ -314,9 +278,13 @@
                         <configuration>
                             <excludeTransitive>true</excludeTransitive>
                             <includeTypes>jar</includeTypes>
+                            <excludes>
+                                META-INF/**
+                            </excludes>
                             <includes>
                                 org/openide/nodes/**,
                                 org/openide/filesystems/**,
+                                org/openide/util/**,
                                 org/netbeans/modules/openide/**,
                                 org/netbeans/modules/dbschema/**
                             </includes>
@@ -343,22 +311,17 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.central</groupId>
-                <artifactId>central-publishing-maven-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>oss-release</id>
+            <properties>
+                <release.projectName>DBSchema OSGi</release.projectName>
+                <release.autoPublish>false</release.autoPublish>
+                <release.waitUntil>published</release.waitUntil>
+            </properties>
+        </profile>
+    </profiles>
 </project>

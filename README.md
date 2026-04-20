@@ -14,7 +14,7 @@ mvn release:prepare -DpushChanges=false -DdevelopmentVersion=1.10.16-SNAPSHOT -D
 git push eclipse Ant-${version}
 ```
 
-3. Visit Eclipse CI and run the deployment for Derby and the tag: https://ci.eclipse.org/glassfish/view/Release/job/repackaged-deploy
+3. Visit Eclipse CI and run the deployment for Ant and the tag: https://ci.eclipse.org/glassfish/view/Release/job/repackaged-deploy
 4. Visit Maven Central Deployments: https://central.sonatype.com/publishing/deployments
 5. Manually check that everything is as expected for the last time and press Drop or Publish.
 6. Wait until the package is distributed to the Maven Central. Not that UI indexes are updated with large latency, but artifacts will be available sooner.
