@@ -75,24 +75,36 @@
             <artifactId>org-netbeans-modules-dbschema</artifactId>
             <version>${dbschema.version}</version>
             <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-nodes</artifactId>
             <version>${dbschema.version}</version>
             <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-filesystems</artifactId>
+            <artifactId>org-openide-util-ui</artifactId>
             <version>${dbschema.version}</version>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-util-lookup</artifactId>
-            <version>${dbschema.version}</version>
-            <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -186,22 +198,11 @@
                     <instructions>
                         <Embed-Dependency>
                             org-netbeans-modules-dbschema.*;inline=true|META-INF/LICENSE|META-INF/NOTICE|!META-INF/**,
-                            org-openide-nodes.*;inline=true|!META-INF/**,
-                            org-openide-filesystems.*;inline=true|!META-INF/**,
-                            org-openide-util-lookup.*;inline=true|!META-INF/**
+                            org-openide-nodes;inline=true|org/openide/nodes/*,
+                            org-openide-util-ui;inline=true|org/openide/util/HelpCtx.class
                         </Embed-Dependency>
                         <Export-Package>*;password="GlassFish"; mandatory:=password</Export-Package>
-                        <Import-Package>
-                            !org.openide.*,
-                            !org.netbeans.*,
-                            !org.jdesktop.layout,
-                            !javax.swing.*,
-                            !javax.accessibility,
-                            !java.awt.*,*
-                        </Import-Package>
-                        <Include-Resource>
-
-                        </Include-Resource>
+                        <Import-Package>!*</Import-Package>
                         <Private-Package>!*</Private-Package>
                     </instructions>
 
@@ -230,65 +231,37 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <includes>
-                                META-INF/LICENSE,
-                                META-INF/NOTICE
-                            </includes>
-                            <excludes>
-                                META-INF/**
-                            </excludes>
+                            <excludes>META-INF/**</excludes>
                             <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.netbeans.api</groupId>
-                                    <artifactId>org-openide-nodes</artifactId>
-                                    <version>${dbschema.version}</version>
-                                    <classifier>sources</classifier>
-                                    <outputDirectory>${project.build.directory}/sources</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.netbeans.api</groupId>
-                                    <artifactId>org-openide-filesystems</artifactId>
-                                    <version>${dbschema.version}</version>
-                                    <classifier>sources</classifier>
-                                    <outputDirectory>${project.build.directory}/sources</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.netbeans.api</groupId>
-                                    <artifactId>org-openide-util-lookup</artifactId>
-                                    <version>${dbschema.version}</version>
-                                    <classifier>sources</classifier>
-                                    <outputDirectory>${project.build.directory}/sources</outputDirectory>
-                                </artifactItem>
                                 <artifactItem>
                                     <groupId>org.netbeans.modules</groupId>
                                     <artifactId>org-netbeans-modules-dbschema</artifactId>
                                     <version>${dbschema.version}</version>
                                     <classifier>sources</classifier>
                                     <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                                    <includes>
+                                        META-INF/LICENSE,
+                                        META-INF/NOTICE,
+                                        org/netbeans/modules/dbschema/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.netbeans.api</groupId>
+                                    <artifactId>org-openide-nodes</artifactId>
+                                    <version>${dbschema.version}</version>
+                                    <classifier>sources</classifier>
+                                    <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                                    <includes>org/openide/nodes/*</includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.netbeans.api</groupId>
+                                    <artifactId>org-openide-util-ui</artifactId>
+                                    <version>${dbschema.version}</version>
+                                    <classifier>sources</classifier>
+                                    <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                                    <includes>org/openide/util/HelpCtx.java</includes>
                                 </artifactItem>
                             </artifactItems>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-dependencies</id>
-                        <goals>
-                            <goal>unpack-dependencies</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <excludeTransitive>true</excludeTransitive>
-                            <includeTypes>jar</includeTypes>
-                            <excludes>
-                                META-INF/**
-                            </excludes>
-                            <includes>
-                                org/openide/nodes/**,
-                                org/openide/filesystems/**,
-                                org/openide/util/**,
-                                org/netbeans/modules/openide/**,
-                                org/netbeans/modules/dbschema/**
-                            </includes>
-                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -308,6 +281,17 @@
                                 <source>${project.build.directory}/sources</source>
                             </sources>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
