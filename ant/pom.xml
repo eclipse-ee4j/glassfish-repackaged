@@ -232,7 +232,8 @@
                         <configuration>
                             <includes>
                                 META-INF/LICENSE.txt,
-                                META-INF/NOTICE.txt
+                                META-INF/NOTICE.txt,
+                                org/apache/tools/**
                             </includes>
                             <excludes>
                                 META-INF/**
