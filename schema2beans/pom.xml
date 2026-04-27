@@ -169,7 +169,7 @@
                 <configuration>
                     <instructions>
                         <Embed-Dependency>
-                            org-netbeans-modules-schema2beans;inline=true|META-INF/LICENSE|META-INF/NOTICE|!META-INF/**
+                            org-netbeans-modules-schema2beans;inline=true|META-INF/LICENSE|META-INF/NOTICE|org/netbeans/modules/schema2beans/**
                         </Embed-Dependency>
                         <Export-Package>org.netbeans.modules.schema2beans.*; password="GlassFish"; mandatory:=password</Export-Package>
                         <Private-Package>!*</Private-Package>
@@ -207,10 +207,6 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <includes>
-                                META-INF/LICENSE,
-                                META-INF/NOTICE
-                            </includes>
                             <excludes>
                                 META-INF/**
                             </excludes>
@@ -221,6 +217,11 @@
                                     <version>${schema2beans.version}</version>
                                     <classifier>sources</classifier>
                                     <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                                    <includes>
+                                        META-INF/LICENSE,
+                                        META-INF/NOTICE,
+                                        org/netbeans/modules/schema2beans/**
+                                    </includes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -242,6 +243,17 @@
                                 <source>${project.build.directory}/sources</source>
                             </sources>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
