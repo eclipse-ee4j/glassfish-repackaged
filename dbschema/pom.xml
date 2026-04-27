@@ -202,7 +202,7 @@
                             org-openide-util-ui;inline=true|org/openide/util/HelpCtx.class
                         </Embed-Dependency>
                         <Export-Package>*;password="GlassFish"; mandatory:=password</Export-Package>
-                        <Import-Package>!*</Import-Package>
+                        <Import-Package>javax.xml.parsers,org.xml.sax,!*</Import-Package>
                         <Private-Package>!*</Private-Package>
                     </instructions>
 
