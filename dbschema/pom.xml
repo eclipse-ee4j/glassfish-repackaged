@@ -197,7 +197,7 @@
                 <configuration>
                     <instructions>
                         <Embed-Dependency>
-                            org-netbeans-modules-dbschema.*;inline=true|META-INF/LICENSE|META-INF/NOTICE|org/netbeans/modules/dbschema/*.class,
+                            org-netbeans-modules-dbschema.*;inline=true|META-INF/LICENSE|META-INF/NOTICE|org/netbeans/modules/dbschema/*.class|org/netbeans/modules/dbschema/*.properties,
                             org-openide-nodes;inline=true|org/openide/nodes/*.class,
                             org-openide-util-ui;inline=true|org/openide/util/HelpCtx.class
                         </Embed-Dependency>
