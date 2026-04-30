@@ -28,7 +28,7 @@
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>schema2beans-osgi</artifactId>
-    <version>2.9.0</version>
+    <version>2.9.1-SNAPSHOT</version>
 
     <name>Schema2beans OSGi</name>
     <description>
@@ -57,7 +57,7 @@
         <connection>scm:git:git@github.com:eclipse-ee4j/glassfish-repackaged.git</connection>
         <developerConnection>scm:git:git@github.com:eclipse-ee4j/glassfish-repackaged.git</developerConnection>
         <url>https://github.com/eclipse-ee4j/glassfish-repackaged.git</url>
-        <tag>schema2beans-2.9.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
