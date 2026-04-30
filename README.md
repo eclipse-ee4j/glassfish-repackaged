@@ -18,7 +18,7 @@ git checkout RELEASE_ANT
 4. Push branch and tag:
 ```
 git push eclipse :RELEASE_ANT
-git push eclipse :ant-1.10.17
+git push eclipse :ant-0.0.0
 ```
 5. Visit [Eclipse CI](https://ci.eclipse.org/glassfish/view/Release/job/repackaged-deploy) and run the deployment for Ant and the tag:
 6. Visit [Maven Central Deployments](https://central.sonatype.com/publishing/deployments)
