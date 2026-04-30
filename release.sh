@@ -24,6 +24,7 @@ fi
 
 if [ -z "$version" ]; then
     echo "Second argument must be a version."
+    echo "The current version of the project $directory is $(mvn help:evaluate -f $directory -Dexpression=project.version -q -DforceStdout)."
     exit 3;
 fi
 
