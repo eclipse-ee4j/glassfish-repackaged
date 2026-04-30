@@ -27,13 +27,12 @@
     </parent>
 
     <groupId>org.glassfish.external</groupId>
-    <artifactId>schema2beans-osgi</artifactId>
-    <version>2.9.1-SNAPSHOT</version>
+    <artifactId>schema2beans</artifactId>
+    <version>2.9.0</version>
+    <packaging>pom</packaging>
 
     <name>Schema2beans OSGi</name>
-    <description>
-        NetBeans Schema2Beans library repackaged for Eclipse GlassFish to support OSGi
-    </description>
+    <description>NetBeans Schema2Beans library repackaged for Eclipse GlassFish to support OSGi</description>
 
     <licenses>
         <license>
@@ -65,220 +64,17 @@
         <url>https://github.com/eclipse-ee4j/glassfish-repackaged/issues</url>
     </issueManagement>
 
-    <properties>
-        <schema2beans.version>RELEASE290</schema2beans.version>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-schema2beans</artifactId>
-            <version>${schema2beans.version}</version>
-            <optional>true</optional>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.6.2</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>6.0.2</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.10.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>3.4.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.12.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.6.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>3.2.8</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.15.0</version>
-                    <configuration>
-                        <skipMain>true</skipMain>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.5.0</version>
-                    <configuration>
-                        <skipIfEmpty>true</skipIfEmpty>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>3.3.1</version>
-                    <configuration>
-                        <lineSeparator>lf</lineSeparator>
-                        <autoResolveSnapshots>true</autoResolveSnapshots>
-                        <autoVersionSubmodules>true</autoVersionSubmodules>
-                        <pushChanges>false</pushChanges>
-                        <tagNameFormat>Schema2Beans-@{project.version}</tagNameFormat>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <plugin>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <phase>validate</phase>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>3.9.0</version>
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <version>17</version>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <configuration>
-                    <instructions>
-                        <Embed-Dependency>
-                            org-netbeans-modules-schema2beans;inline=true|META-INF/LICENSE|META-INF/NOTICE|org/netbeans/modules/schema2beans/**
-                        </Embed-Dependency>
-                        <Export-Package>org.netbeans.modules.schema2beans.*; password="GlassFish"; mandatory:=password</Export-Package>
-                        <Private-Package>!*</Private-Package>
-                    </instructions>
-                    <!-- Maven uses the output directory (target/classes)
-                    rather than the final bundle, when compiling against
-                    projects in the same reactor (ie. the same build).
-                    Since this jar comprises of classes that come from
-                    some other jar and other modules depend on this
-                    artifact, we need to unpack.
-                    -->
-                    <unpackBundle>true</unpackBundle>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>osgi-bundle</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>bundle</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--
-                unpack and attach the sources.jar(s) available
-                This allows us to generate proper sources.jar and javadoc.jar
-            -->
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack-sources</id>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <excludes>
-                                META-INF/**
-                            </excludes>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.netbeans.api</groupId>
-                                    <artifactId>org-netbeans-modules-schema2beans</artifactId>
-                                    <version>${schema2beans.version}</version>
-                                    <classifier>sources</classifier>
-                                    <outputDirectory>${project.build.directory}/sources</outputDirectory>
-                                    <includes>
-                                        META-INF/LICENSE,
-                                        META-INF/NOTICE,
-                                        org/netbeans/modules/schema2beans/**
-                                    </includes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-sources</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.build.directory}/sources</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- We don't need javadoc, but it is fragile and we need to detect issues early -->
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>javadoc-no-fork</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <doclint>none</doclint>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <distributionManagement>
+        <relocation>
+            <artifactId>schema2beans-osgi-osgi</artifactId>
+        </relocation>
+    </distributionManagement>
 
     <profiles>
         <profile>
             <id>oss-release</id>
             <properties>
-                <release.projectName>Schema2Beans OSGi</release.projectName>
+                <release.projectName>Schema2Beans Relocation</release.projectName>
                 <release.autoPublish>false</release.autoPublish>
                 <release.waitUntil>published</release.waitUntil>
             </properties>
