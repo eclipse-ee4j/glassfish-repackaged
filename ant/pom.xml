@@ -28,7 +28,7 @@
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>ant-osgi</artifactId>
-    <version>1.10.17-SNAPSHOT</version>
+    <version>1.10.18-SNAPSHOT</version>
 
     <name>Ant OSGi</name>
     <description>Apache Ant repackaged for Eclipse GlassFish to support OSGi</description>
