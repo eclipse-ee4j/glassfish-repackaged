@@ -22,13 +22,13 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>2.0.2</version>
+        <version>2.0.5</version>
         <relativePath />
     </parent>
 
     <groupId>org.glassfish.external</groupId>
     <artifactId>derby</artifactId>
-    <version>10.17.1.0-SNAPSHOT</version>
+    <version>10.17.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Apache Derby for Eclipse GlassFish</name>
@@ -74,7 +74,7 @@
           <plugins>
                 <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.6.2</version>
+                    <version>3.6.3</version>
                 </plugin>
                 <plugin>
                     <groupId>io.github.download-maven-plugin</groupId>
@@ -84,7 +84,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.6.1</version>
+                    <version>3.6.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -113,7 +113,7 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.9.0</version>
+                                    <version>3.9.16</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
                                     <version>17</version>
